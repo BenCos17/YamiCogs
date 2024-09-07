@@ -83,6 +83,11 @@ class Kill(commands.Cog):
         """
         
         killmsgs = await self.config.guild(ctx.guild).msg()
+        # Include botkill and selfkill messages
+        botkill_msg = await self.config.guild(ctx.guild).botkill()
+        selfkill_msg = await self.config.guild(ctx.guild).selfkill()
+        killmsgs.extend([botkill_msg, selfkill_msg])  # Add botkill and selfkill messages
+
         if not killmsgs:
             return await ctx.send(_("There are no messages configured"))
 
