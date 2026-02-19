@@ -440,9 +440,10 @@ class Tube(commands.Cog):
             if not update:
                 continue
             fetched.update(update)
-            # Truncate video ID cache
+            # Truncate video ID cache only when it exceeds size (avoids spamming settings.tmp)
             cache = await self.conf.guild(guild).cache()
-            await self.conf.guild(guild).cache.set(cache[-cache_size:])
+            if len(cache) > cache_size:
+                await self.conf.guild(guild).cache.set(cache[-cache_size:])
 
     @background_get_new_videos.before_loop
     async def wait_for_red(self):
